@@ -1,0 +1,162 @@
+version: '2'
+
+services:
+  config-server:
+    image: ekram/spring-petclinic-config-server
+    container_name: config-server
+    depends_on:
+      - tracing-server
+    mem_limit: 750M
+    ports:
+     - "8888:8888"
+
+  discovery-server:
+    image: ekram/spring-petclinic-discovery-server
+    container_name: discovery-server
+    mem_limit: 750M
+    depends_on:
+      - config-server
+    command: >
+      /bin/bash -c "
+        while ! nc -z config-server 8888;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+      "
+    ports:
+     - "8761:8761"
+
+  customers-service:
+    image: ekram/spring-petclinic-customers-service
+    container_name: customers-service
+    mem_limit: 750M
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka/
+    depends_on:
+     - config-server
+     - discovery-server
+    command: >
+      /bin/bash -c "
+        while ! nc -z discovery-server 8761;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+      "
+    ports:
+    - "8081:8081"
+
+
+  visits-service:
+    image: ekram/spring-petclinic-visits-service
+    container_name: visits-service
+    mem_limit: 750M
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka/
+    depends_on:
+      - config-server
+      - discovery-server
+    command: >
+      /bin/bash -c "
+        while ! nc -z discovery-server 8761;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+      "
+    ports:
+      - "8082:8082"
+
+  vets-service:
+    image: ekram/spring-petclinic-vets-service
+    container_name: vets-service
+    mem_limit: 750M
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka/
+    depends_on:
+      - config-server
+      - discovery-server
+    command: >
+      /bin/bash -c "
+        while ! nc -z discovery-server 8761;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+      "
+    ports:
+      - "8083:8083"
+
+  api-gateway:
+    image: ekram/spring-petclinic-api-gateway
+    container_name: api-gateway
+    mem_limit: 750M
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka/
+    depends_on:
+      - config-server
+      - discovery-server
+    command: >
+      /bin/bash -c "
+        while ! nc -z discovery-server 8761;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+      "
+    ports:
+      - "8080:8080"
+
+  tracing-server:
+    image: openzipkin/zipkin
+    container_name: tracing-server
+    mem_limit: 512M
+    environment:
+      - JAVA_OPTS=-XX:+UnlockExperimentalVMOptions -Djava.security.egd=file:/dev/./urandom
+    ports:
+      - "9411:9411"
+
+  admin-server:
+    image: ekram/spring-petclinic-admin-server
+    container_name: admin-server
+    mem_limit: 750M
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery-server:8761/eureka/
+    depends_on:
+      - config-server
+      - discovery-server
+    command: >
+      /bin/bash -c "
+        while ! nc -z discovery-server 8761;
+        do
+          echo sleeping;
+          sleep 1;
+        done;
+        echo Connected!;
+      "
+    ports:
+      - "9090:9090"
+
+  ## Grafana / Prometheus
+
+  grafana-server:
+    build: ./docker/grafana
+    container_name: grafana-server
+    mem_limit: 256M
+    ports:
+      - "3000:3000"
+
+  prometheus-server:
+    build: ./docker/prometheus
+    container_name: prometheus-server
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    mem_limit: 256M
+    ports:
+      - "9091:9090"

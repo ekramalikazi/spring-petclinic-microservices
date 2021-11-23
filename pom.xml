@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.1</version>
+    </parent>
+
+    <groupId>org.springframework.samples</groupId>
+    <artifactId>spring-petclinic-microservices</artifactId>
+    <version>2.5.1</version>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>spring-petclinic-micrometer</module>
+        <module>spring-petclinic-admin-server</module>
+        <module>spring-petclinic-customers-service</module>
+        <module>spring-petclinic-vets-service</module>
+        <module>spring-petclinic-visits-service</module>
+        <module>spring-petclinic-config-server</module>
+        <module>spring-petclinic-discovery-server</module>
+        <module>spring-petclinic-api-gateway</module>
+        <module>spring-petclinic-thirdparty-service</module>
+    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <assertj.version>3.17.1</assertj.version>
+
+        <spring-boot.version>2.5.1</spring-boot.version>
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <chaos-monkey-spring-boot.version>2.3.10</chaos-monkey-spring-boot.version>
+
+        <docker.image.prefix>ekram</docker.image.prefix>
+
+        <jkube.version>1.4.0</jkube.version>
+        <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
+        <jkube.generator.name>${docker.image.prefix}/${project.artifactId}</jkube.generator.name>
+
+        <spring-javaformat.version>0.0.23</spring-javaformat.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>chaos-monkey-spring-boot</artifactId>
+                <version>${chaos-monkey-spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.spring.javaformat</groupId>
+                <artifactId>spring-javaformat-maven-plugin</artifactId>
+                <version>${spring-javaformat.version}</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>validate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <environmentVariables>
+                        <BPE_APPEND_JAVA_TOOL_OPTIONS>-XX:MaxDirectMemorySize=64M</BPE_APPEND_JAVA_TOOL_OPTIONS>
+                        <BPE_DELIM_JAVA_TOOL_OPTIONS xml:space="preserve"> </BPE_DELIM_JAVA_TOOL_OPTIONS>
+                    </environmentVariables>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>kubernetes-maven-plugin</artifactId>
+                <version>${jkube.version}</version>
+                <configuration>
+                    <helm>
+                        <chart>Custom chart name</chart>
+                        <type>kubernetes</type>
+                        <icon>This is the icon</icon>
+                        <description>A customized description for the chart</description>
+                        <sources>
+                            <source>https://different.source/yaml.yml</source>
+                        </sources>
+                        <maintainers>
+                            <maintainer>
+                                <name>John</name>
+                                <email>john.doe@example.com</email>
+                            </maintainer>
+                        </maintainers>
+                    </helm>
+                    <resources>
+                        <labels>
+                            <all>
+                                <testProject>spring-boot-with-yaml-label-for-all</testProject>
+                            </all>
+                        </labels>
+                    </resources>
+                    <generator>
+                        <config>
+                            <spring-boot>
+                                <color>always</color>
+                            </spring-boot>
+                        </config>
+                    </generator>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
