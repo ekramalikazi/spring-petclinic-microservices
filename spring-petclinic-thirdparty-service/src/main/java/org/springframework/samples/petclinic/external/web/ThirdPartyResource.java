@@ -44,7 +44,7 @@ class ThirdPartyResource {
 	public String someSuperSlowCall() {
 		log.info("inside someSuperSlowCall..");
 		try {
-			TimeUnit.SECONDS.sleep(3);
+			TimeUnit.SECONDS.sleep(2);
 		}
 		catch (InterruptedException ie) {
 			Thread.currentThread().interrupt();
