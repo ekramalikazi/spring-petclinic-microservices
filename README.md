@@ -163,7 +163,7 @@ The [issue tracker](https://github.com/spring-petclinic/spring-petclinic-microse
 
 For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.
 
-# Compilation Issue
+# Common Compilation Issue
 
 [ERROR] Failed to execute goal io.spring.javaformat:spring-javaformat-maven-plugin:0.0.23:validate (default) on project spring-petclinic-micrometer: Formatting violations found in the following files:
 
