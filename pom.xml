@@ -64,6 +64,11 @@
                 <version>${assertj.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+               <groupId>org.owasp</groupId>
+               <artifactId>dependency-check-maven</artifactId>
+               <version>6.5.0</version>
+           </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -140,6 +145,18 @@
                         </config>
                     </generator>
                 </configuration>
+            </plugin>
+            <plugin>
+            <groupId>org.owasp</groupId>
+              <artifactId>dependency-check-maven</artifactId>
+                <version>6.5.0</version>
+                  <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
