@@ -1,0 +1,17 @@
+name: Java CI with Maven
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-java:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: trigger Jenkins Job
+      run : |
+        curl -X POST -k --user "jenkins:$USER_TOKEN" "http://34.215.245.241:8080/job/ci-lightDemo/buildWithParameters?token=remoteTokenForCiLight&Branch=${GITHUB_HEAD_REF}&cause=github_actions"
+      env :
+        USER_TOKEN : ${{ secrets.JENKINSUSER }}
