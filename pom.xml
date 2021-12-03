@@ -28,6 +28,7 @@
     </modules>
 
     <properties>
+        <buildNumber>1</buildNumber>
         <java.version>1.8</java.version>
         <assertj.version>3.17.1</assertj.version>
 
@@ -94,6 +95,9 @@
                     <layers>
                         <enabled>true</enabled>
                     </layers>
+                    <additionalProperties>
+                        <buildNumber>${buildNumber}</buildNumber>
+                    </additionalProperties>
                 </configuration>
                 <executions>
                     <execution>
