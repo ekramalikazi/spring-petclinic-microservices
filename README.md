@@ -171,7 +171,7 @@ For pull requests, editor preferences are available in the [editor config](.edit
 
 [ERROR] Failed to execute goal io.spring.javaformat:spring-javaformat-maven-plugin:0.0.23:validate (default) on project spring-petclinic-micrometer: Formatting violations found in the following files:
 
-Run `mvn spring-javaformat:apply` to fix
+Run `mvn spring-javaformat:apply` to fix.
 
 
 [Configuration repository]: https://github.com/spring-petclinic/spring-petclinic-microservices-config
