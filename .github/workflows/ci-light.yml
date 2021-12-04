@@ -14,10 +14,7 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
       run: echo "$GITHUB_CONTEXT"
-        
-    - id: action_with_json_output
-      run: 'apt-get -y jq; echo "{ "foo": "bar" }" | jq > /tmp/123.json'
-        
+      
     - name: Trigger Jenkins job
       uses: toptal/jenkins-job-trigger-action@master
       with:
@@ -25,5 +22,5 @@ jobs:
           jenkins_user: "jenkins"
           jenkins_token: ${{ secrets.JENKINSUSER }}
           job_name: ${{ secrets.JENKINSJOBNAME }}
-          job_params: ${{ steps.action_with_json_output.outputs.data }}
+          job_params: ${{ env.GITHUB_CONTEXT.head_ref }}
           job_timeout: "3600" # Default 30 sec. (optional)
