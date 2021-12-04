@@ -45,8 +45,5 @@ jobs:
           jenkins_user: "jenkins"
           jenkins_token: ${{ secrets.JENKINSUSER }}
           job_name: ${{ secrets.JENKINSJOBNAME }}
-          job_params: | 
-            {
-              "Branch" : "$(echo $GITHUB_CONTEXT.head_ref)"
-            }
+          job_params: "${{ env.JSON_RESPONSE }}"
           job_timeout: "3600" # Default 30 sec. (optional)
