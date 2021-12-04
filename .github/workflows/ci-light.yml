@@ -27,7 +27,7 @@ jobs:
     - name: Json more
       run: |
         echo 'JSON_RESPONSE<<EOF' >> $GITHUB_ENV
-        curl https://httpbin.org/json >> $GITHUB_ENV
+        echo "{ \"Branch\":\"main\" }" >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
     - name: Test
       run: |
