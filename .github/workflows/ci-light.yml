@@ -10,20 +10,40 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: create-json
-      id: create-json-2  # Second ID
-      uses: jsdaniell/create-json@1.1.2
-      with:
-        name: "other.json"
-        json: '{"name":"jsdaniell", "password":"mypass"}'
-        dir: 'src/'
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: echo "$GITHUB_HEAD_REF=$(echo $GITHUB_CONTEXT.head_ref)" >> $GITHUB_ENV
+    - name: Test
+      run: echo $GITHUB_HEAD_REF
+    
+    - name: Form Json
+      run: |
+        echo "FOO_ENV={ \"Branch\":\"main\" }" >> $GITHUB_ENV
+    - name: Test
+      run: |
+        echo "${{ env.FOO_ENV }}"
+    
+    - name: Json more
+      run: |
+        echo 'JSON_RESPONSE<<EOF' >> $GITHUB_ENV
+        echo "{ \"Branch\":\"main\" }" >> $GITHUB_ENV
+        echo 'EOF' >> $GITHUB_ENV
+    - name: Test
+      run: |
+        echo "${{ env.JSON_RESPONSE }}"
+    
+    - id: action_with_json_output
+      run: 'echo ::set-output name=data::{ "Branch" : "main" }'
       
     - name: Trigger Jenkins job
       uses: toptal/jenkins-job-trigger-action@master
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
       with:
           jenkins_url: ${{ secrets.JENKINSURL }}
           jenkins_user: "jenkins"
           jenkins_token: ${{ secrets.JENKINSUSER }}
           job_name: ${{ secrets.JENKINSJOBNAME }}
-          job_params: ${ src/other.json }
+          job_params: "${{ env.JSON_RESPONSE }}"
           job_timeout: "3600" # Default 30 sec. (optional)
