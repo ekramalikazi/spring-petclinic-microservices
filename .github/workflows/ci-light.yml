@@ -17,6 +17,13 @@ jobs:
     - name: Test
       run: echo $GITHUB_HEAD_REF
     
+    - name: Form Json
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: echo "$GITHUB_HEAD_REF="{ \"Branch\":\"main\" }"" >> $FOO_ENV
+    - name: Test
+      run: echo $FOO_ENV
+    
     - id: action_with_json_output
       run: 'echo ::set-output name=data::{ "Branch" : "main" }'
       
