@@ -29,6 +29,6 @@ jobs:
           job_name: ${{ secrets.JENKINSJOBNAME }}
           job_params: | 
             {
-              "Branch" : "$GITHUB_REF"
+              "Branch" : "jenkins-3"
             }
           job_timeout: "3600" # Default 30 sec. (optional)
