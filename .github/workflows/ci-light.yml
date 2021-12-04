@@ -20,7 +20,7 @@ jobs:
     - name: Form Json
       env:
         GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: echo "$GITHUB_HEAD_REF="{ \"Branch\":\"main\" }"" >> $GITHUB_CONTEXT
+      run: echo "$FOO_ENV="{ \"Branch\":\"main\" }"" >> $GITHUB_ENV
     - name: Test
       run: echo $FOO_ENV
     
