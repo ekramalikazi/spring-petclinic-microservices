@@ -10,14 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: create-json
-      id: create-json-2  # Second ID
-      uses: jsdaniell/create-json@1.1.2
-      with:
-        name: "other.json"
-        json: '{"name":"jsdaniell", "password":"mypass"}'
-        dir: 'src/'
-      
+    - id: action_with_json_output
+      run: 'echo ::set-output name=data::{ "branch": "foo" }'
+        
     - name: Trigger Jenkins job
       uses: toptal/jenkins-job-trigger-action@master
       with:
@@ -25,5 +20,5 @@ jobs:
           jenkins_user: "jenkins"
           jenkins_token: ${{ secrets.JENKINSUSER }}
           job_name: ${{ secrets.JENKINSJOBNAME }}
-          job_params: ${ src/other.json }
+          job_params: ${{ steps.action_with_json_output.outputs.data }}
           job_timeout: "3600" # Default 30 sec. (optional)
