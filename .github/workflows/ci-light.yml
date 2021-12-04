@@ -16,6 +16,9 @@ jobs:
       run: echo "$GITHUB_HEAD_REF=$(echo $GITHUB_CONTEXT.head_ref)" >> $GITHUB_ENV
     - name: Test
       run: echo $GITHUB_HEAD_REF
+    
+    - id: action_with_json_output
+      run: 'echo ::set-output name=data::{ "Branch" : "main" }'
       
     - name: Trigger Jenkins job
       uses: toptal/jenkins-job-trigger-action@master
@@ -24,8 +27,5 @@ jobs:
           jenkins_user: "jenkins"
           jenkins_token: ${{ secrets.JENKINSUSER }}
           job_name: ${{ secrets.JENKINSJOBNAME }}
-          job_params: |
-            {
-              "Branch": "${{ env.GITHUB_REF }}"
-            }
+          job_params: ${{ steps.action_with_json_output.outputs.data }}
           job_timeout: "3600" # Default 30 sec. (optional)
