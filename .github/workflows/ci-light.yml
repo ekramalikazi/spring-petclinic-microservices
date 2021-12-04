@@ -21,7 +21,8 @@ jobs:
       run: |
         echo "FOO_ENV={ \"Branch\":\"main\" }" >> $GITHUB_ENV
     - name: Test
-      run: echo $FOO_ENV
+      run: |
+        echo "${{ env.FOO_ENV }}"
     
     - id: action_with_json_output
       run: 'echo ::set-output name=data::{ "Branch" : "main" }'
