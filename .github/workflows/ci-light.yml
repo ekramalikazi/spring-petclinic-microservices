@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+        
     - id: action_with_json_output
       run: 'apt-get -y jq; echo "{ "foo": "bar" }" | jq > /tmp/123.json'
         
