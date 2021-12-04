@@ -24,6 +24,15 @@ jobs:
       run: |
         echo "${{ env.FOO_ENV }}"
     
+    - name: Json more
+      run: |
+        echo 'JSON_RESPONSE<<EOF' >> $GITHUB_ENV
+        curl https://httpbin.org/json >> $GITHUB_ENV
+        echo 'EOF' >> $GITHUB_ENV
+    - name: Test
+      run: |
+        echo "${{ env.JSON_RESPONSE }}"
+    
     - id: action_with_json_output
       run: 'echo ::set-output name=data::{ "Branch" : "main" }'
       
