@@ -24,6 +24,6 @@ jobs:
           job_name: ${{ secrets.JENKINSJOBNAME }}
           job_params: |
             {
-              "Branch": "master"
+              "Branch": "${{ toJson(github).head_ref }}"
             }
           job_timeout: "3600" # Default 30 sec. (optional)
