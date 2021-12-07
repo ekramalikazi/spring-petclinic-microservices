@@ -161,6 +161,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <format>ALL</format>
+                </configuration>
             </plugin>
         </plugins>
     </build>
