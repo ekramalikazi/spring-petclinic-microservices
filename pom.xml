@@ -120,19 +120,13 @@
                 <version>${jkube.version}</version>
                 <configuration>
                     <helm>
-                        <chart>Custom chart name</chart>
+                        <chart>${project.artifactId}</chart>
                         <type>kubernetes</type>
                         <icon>This is the icon</icon>
                         <description>A customized description for the chart</description>
                         <sources>
                             <source>https://different.source/yaml.yml</source>
                         </sources>
-                        <maintainers>
-                            <maintainer>
-                                <name>John</name>
-                                <email>john.doe@example.com</email>
-                            </maintainer>
-                        </maintainers>
                     </helm>
                     <resources>
                         <labels>
