@@ -129,7 +129,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jmxPort>9042</jmxPort>
+                    <jmxPort>9043</jmxPort>
                 </configuration>
                 <executions>
                     <execution>
