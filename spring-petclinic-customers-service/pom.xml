@@ -128,9 +128,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <jmxPort>9043</jmxPort>
-                </configuration>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -140,7 +137,8 @@
                         <configuration>
                             <jvmArguments>
                                 -Dspring.application.admin.enabled=true
-                                -Dspring.profiles.active=test
+                                -Dcom.sun.management.jmxremote.port=9043
+                                -Dcom.sun.management.jmxremote.rmi.port=9043
                             </jvmArguments>
                             <arguments>
                                 <argument>--server.port=${test.tomcat.server.port}</argument>
