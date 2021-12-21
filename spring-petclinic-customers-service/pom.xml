@@ -14,6 +14,11 @@
         <version>2.5.1</version>
 	</parent>
 
+    <properties>
+        <test.tomcat.server.port>8042</test.tomcat.server.port>
+    </properties>
+
+
 	<dependencies>
 
         <!-- Spring Boot -->
@@ -87,7 +92,6 @@
             <groupId>de.codecentric</groupId>
             <artifactId>chaos-monkey-spring-boot</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -96,11 +100,6 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-        </dependency>
-
         <!-- Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -135,6 +134,11 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>--server.port=${test.tomcat.server.port}</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>post-integration-test</id>
@@ -157,7 +161,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <apiDocsUrl>http://localhost:8080/api-docs</apiDocsUrl>
+                    <apiDocsUrl>http://localhost:${test.tomcat.server.port}/api-docs</apiDocsUrl>
                     <outputFileName>openapi.json</outputFileName>
                     <outputDir>${project.build.directory}/openapi-spec</outputDir>
                     <skip>false</skip>
