@@ -145,6 +145,7 @@
                             </jvmArguments>
                             <arguments>
                                 <argument>--server.port=${test.tomcat.server.port}</argument>
+                                <argument>--spring.cloud.discovery.enabled=false</argument>
                             </arguments>
                         </configuration>
                     </execution>
