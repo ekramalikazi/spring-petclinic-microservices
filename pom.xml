@@ -99,7 +99,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}:${buildNumber}</imageName>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <environmentVariables>
                         <BPE_APPEND_JAVA_TOOL_OPTIONS>-XX:MaxDirectMemorySize=64M</BPE_APPEND_JAVA_TOOL_OPTIONS>
                         <BPE_DELIM_JAVA_TOOL_OPTIONS xml:space="preserve"> </BPE_DELIM_JAVA_TOOL_OPTIONS>
