@@ -69,7 +69,14 @@
                <groupId>org.owasp</groupId>
                <artifactId>dependency-check-maven</artifactId>
                <version>6.5.0</version>
+               <scope>compile</scope>
            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>1.5.2</version>
+                <scope>compile</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -92,7 +99,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <imageName>${docker.image.prefix}/${project.artifactId}:${buildNumber}</imageName>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <environmentVariables>
                         <BPE_APPEND_JAVA_TOOL_OPTIONS>-XX:MaxDirectMemorySize=64M</BPE_APPEND_JAVA_TOOL_OPTIONS>
                         <BPE_DELIM_JAVA_TOOL_OPTIONS xml:space="preserve"> </BPE_DELIM_JAVA_TOOL_OPTIONS>
@@ -181,7 +188,7 @@
                     <execution>
                         <id>report</id>
                         <goals>
-                            <goal>report</goal>
+                            <goal>report-aggregate</goal>
                         </goals>
                         <phase>test</phase>
                     </execution>
