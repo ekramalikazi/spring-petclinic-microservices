@@ -1,5 +1,12 @@
 spring.jpa.hibernate.ddl-auto: none
 spring:
+  cloud:
+    discovery:
+      enabled: false
+    config:
+      discovery:
+        enabled: false
+      enabled: false
   datasource:
     schema: classpath*:db/hsqldb/schema.sql
     data: classpath*:db/hsqldb/data.sql

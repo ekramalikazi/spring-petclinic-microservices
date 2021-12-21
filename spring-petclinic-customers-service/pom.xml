@@ -140,6 +140,7 @@
                         <configuration>
                             <jvmArguments>
                                 -Dspring.application.admin.enabled=true
+                                -Dspring.profiles.active=test
                             </jvmArguments>
                             <arguments>
                                 <argument>--server.port=${test.tomcat.server.port}</argument>
