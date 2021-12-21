@@ -68,7 +68,7 @@ class OwnerResource {
 	 * Read single Owner
 	 */
 	@GetMapping(value = "/{ownerId}")
-	@Operation(summary = "Get Owner object by its id")
+	@Operation(summary = "Get Owner details by its id")
 	@ApiResponses(
 			value = {
 					@ApiResponse(responseCode = "200", description = "Found the Owner",
